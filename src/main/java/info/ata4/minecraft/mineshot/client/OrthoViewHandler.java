@@ -9,6 +9,7 @@
  */
 package info.ata4.minecraft.mineshot.client;
 
+import info.ata4.minecraft.mineshot.Mineshot;
 import info.ata4.minecraft.mineshot.client.gui.GuiCamera;
 import info.ata4.minecraft.mineshot.client.wrapper.Projection;
 import info.ata4.minecraft.mineshot.client.wrapper.ToggleableClippingHelper;
@@ -24,15 +25,14 @@ import net.minecraftforge.client.event.DrawBlockHighlightEvent;
 import net.minecraftforge.client.event.EntityViewRenderEvent;
 import net.minecraftforge.client.event.RenderGameOverlayEvent;
 import net.minecraftforge.client.event.RenderHandEvent;
+import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.client.registry.ClientRegistry;
-import net.minecraftforge.fml.common.eventhandler.SubscribeEvent;
+import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.common.gameevent.InputEvent;
 import net.minecraftforge.fml.common.gameevent.PlayerEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.ClientTickEvent;
 import net.minecraftforge.fml.common.gameevent.TickEvent.Phase;
-import org.lwjgl.input.Keyboard;
 
-import java.math.RoundingMode;
 import java.text.DecimalFormat;
 
 import static org.lwjgl.opengl.GL11.GL_MODELVIEW;
@@ -43,6 +43,7 @@ import static org.lwjgl.opengl.GL11.GL_PROJECTION;
  * 
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
+@Mod.EventBusSubscriber(modid = Mineshot.MOD_ID)
 public class OrthoViewHandler implements PrivateAccessor {
 
     private static final float ZOOM_DEFAULT = 8f;
@@ -56,19 +57,19 @@ public class OrthoViewHandler implements PrivateAccessor {
     private static final float SECONDS_PER_TICK = 1f/20f;
 
     private final String keyCategory = "key.categories.mineshot";
-    private final KeyBinding keyToggle = new KeyBinding("key.mineshot.ortho.toggle", Keyboard.KEY_F7, keyCategory);
-    private final KeyBinding keyGui = new KeyBinding("key.mineshot.ortho.gui", Keyboard.KEY_F8, keyCategory);
-    private final KeyBinding keyPreset = new KeyBinding("key.mineshot.ortho.preset", Keyboard.KEY_BACKSLASH, keyCategory);
-    private final KeyBinding keyZoomIn = new KeyBinding("key.mineshot.ortho.zoom_in", Keyboard.KEY_RBRACKET, keyCategory);
-    private final KeyBinding keyZoomOut = new KeyBinding("key.mineshot.ortho.zoom_out", Keyboard.KEY_LBRACKET, keyCategory);
-    private final KeyBinding keyRotateLeft = new KeyBinding("key.mineshot.ortho.rotate_left", Keyboard.KEY_LEFT, keyCategory);
-    private final KeyBinding keyRotateRight = new KeyBinding("key.mineshot.ortho.rotate_right", Keyboard.KEY_RIGHT, keyCategory);
-    private final KeyBinding keyRotateUp = new KeyBinding("key.mineshot.ortho.rotate_up", Keyboard.KEY_UP, keyCategory);
-    private final KeyBinding keyRotateDown = new KeyBinding("key.mineshot.ortho.rotate_down", Keyboard.KEY_DOWN, keyCategory);
+    private final KeyBinding keyToggle = new KeyBinding("key.mineshot.ortho.toggle", 296, keyCategory);
+    private final KeyBinding keyGui = new KeyBinding("key.mineshot.ortho.gui", 297, keyCategory);
+    private final KeyBinding keyPreset = new KeyBinding("key.mineshot.ortho.preset", 92, keyCategory);
+    private final KeyBinding keyZoomIn = new KeyBinding("key.mineshot.ortho.zoom_in", 93, keyCategory);
+    private final KeyBinding keyZoomOut = new KeyBinding("key.mineshot.ortho.zoom_out", 91, keyCategory);
+    private final KeyBinding keyRotateLeft = new KeyBinding("key.mineshot.ortho.rotate_left", 263, keyCategory);
+    private final KeyBinding keyRotateRight = new KeyBinding("key.mineshot.ortho.rotate_right", 262, keyCategory);
+    private final KeyBinding keyRotateUp = new KeyBinding("key.mineshot.ortho.rotate_up", 265, keyCategory);
+    private final KeyBinding keyRotateDown = new KeyBinding("key.mineshot.ortho.rotate_down", 264, keyCategory);
 
     private final DecimalFormat valueDisplay = new DecimalFormat("0.000");
 
-    private final Minecraft mc = Minecraft.getMinecraft();
+    private final Minecraft mc = Minecraft.getInstance();
     private final ToggleableClippingHelper clippingHelper = ToggleableClippingHelper.getInstance();
     private boolean clippingEnabled;
     
@@ -315,7 +316,7 @@ public class OrthoViewHandler implements PrivateAccessor {
         xRot = fixValue(xRot);
         yRot = fixValue(yRot);
 
-        float width = zoom * (mc.displayWidth / (float) mc.displayHeight);
+        float width = zoom * (mc.display / (float) mc.displayHeight);
         float height = zoom;
 
         // override projection matrix
@@ -328,8 +329,8 @@ public class OrthoViewHandler implements PrivateAccessor {
         // override camera view matrix
         GlStateManager.matrixMode(GL_MODELVIEW);
         GlStateManager.loadIdentity();
-        GlStateManager.rotate(xRot, 1, 0, 0);
-        GlStateManager.rotate(yRot, 0, 1, 0);
+        GlStateManager.rotatef(xRot, 1, 0, 0);
+        GlStateManager.rotatef(yRot, 0, 1, 0);
         
         // fix particle rotation if the camera isn't following the player view
         if (!freeCam) {

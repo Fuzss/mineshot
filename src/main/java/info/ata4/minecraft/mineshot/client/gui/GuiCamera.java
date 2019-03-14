@@ -2,9 +2,10 @@ package info.ata4.minecraft.mineshot.client.gui;
 
 import info.ata4.minecraft.mineshot.client.OrthoViewHandler;
 import net.minecraft.client.gui.GuiButton;
+import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.gui.GuiPageButtonList.GuiResponder;
 import net.minecraft.client.gui.GuiScreen;
-import net.minecraft.client.gui.GuiSlider;
+import net.minecraft.client.gui.GuiOptionSlider;
 import net.minecraft.client.resources.I18n;
 import net.minecraft.util.text.*;
 import org.lwjgl.input.Keyboard;
@@ -25,9 +26,9 @@ public class GuiCamera extends GuiScreen implements GuiResponder {
     private GuiNumberTextField textZoom;
     private GuiNumberTextField textXRot;
     private GuiNumberTextField textYRot;
-    private GuiSlider sliderZoom;
-    private GuiSlider sliderXRot;
-    private GuiSlider sliderYRot;
+    private GuiOptionSlider sliderZoom;
+    private GuiOptionSlider sliderXRot;
+    private GuiOptionSlider sliderYRot;
     private GuiButton buttonCancel;
     private GuiButton buttonSlider;
     private GuiButton buttonText;
@@ -171,7 +172,7 @@ public class GuiCamera extends GuiScreen implements GuiResponder {
         buttonReset3 = new GuiIconButton(15, width/2-48, height/6+70, new int[] {7}, false);
         buttonList.add(buttonReset3);
 
-        sliderZoom = new GuiSlider(this, 10, width/2-135, height/6+20, I18n.format("mineshot.gui.zoom"), ZOOM_MIN, ZOOM_MAX, zoomUpdated, (id, name, value) -> {
+        sliderZoom = new GuiOptionSlider(this, 10, width/2-135, height/6+20, I18n.format("mineshot.gui.zoom"), ZOOM_MIN, ZOOM_MAX, zoomUpdated, (id, name, value) -> {
             zoomUpdated = value;
             checkZoomButtonsEnabled();
             ovh.updateFromGui(zoomUpdated, xRotUpdated, yRotUpdated);
@@ -179,14 +180,14 @@ public class GuiCamera extends GuiScreen implements GuiResponder {
         });
         sliderZoom.width = 271;
         buttonList.add(sliderZoom);
-        sliderXRot = new GuiSlider(this, 11, width/2-135, height/6+45, I18n.format("mineshot.gui.xrot"), 0f, 359.999f, xRotUpdated, (id, name, value) -> {
+        sliderXRot = new GuiOptionSlider(this, 11, width/2-135, height/6+45, I18n.format("mineshot.gui.xrot"), 0f, 359.999f, xRotUpdated, (id, name, value) -> {
             xRotUpdated = value;
             ovh.updateFromGui(zoomUpdated, xRotUpdated, yRotUpdated);
             return name+": " + valueDisplay.format(xRotUpdated);
         });
         sliderXRot.width = 271;
         buttonList.add(sliderXRot);
-        sliderYRot = new GuiSlider(this, 12, width/2-135, height/6+70, I18n.format("mineshot.gui.yrot"), 0f, 359.999f, yRotUpdated, (id, name, value) -> {
+        sliderYRot = new GuiOptionSlider(this, 12, width/2-135, height/6+70, I18n.format("mineshot.gui.yrot"), 0f, 359.999f, yRotUpdated, (id, name, value) -> {
             yRotUpdated = value;
             ovh.updateFromGui(zoomUpdated, xRotUpdated, yRotUpdated);
             return name+": " + valueDisplay.format(yRotUpdated);

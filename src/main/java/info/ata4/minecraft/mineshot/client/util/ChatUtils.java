@@ -24,7 +24,7 @@ import static net.minecraft.util.text.event.ClickEvent.Action.OPEN_FILE;
  */
 public class ChatUtils {
 
-    private static final Minecraft MC = Minecraft.getMinecraft();
+    private static final Minecraft MC = Minecraft.getInstance();
 
     public static void print(String msg, TextFormatting format, Object... args) {
         if (MC.ingameGUI == null) {

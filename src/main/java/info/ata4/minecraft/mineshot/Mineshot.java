@@ -28,21 +28,12 @@ import net.minecraftforge.fml.common.event.FMLPreInitializationEvent;
  * @author Nico Bergemann <barracuda415 at yahoo.de>
  */
 
-@Mod(
-    modid = Mineshot.MODID,
-    name = Mineshot.NAME,
-    version = Mineshot.VERSION,
-    useMetadata = true,
-    guiFactory = "info.ata4.minecraft.mineshot.client.config.MineshotConfigGuiFactory",
-    clientSideOnly = true
-)
+@Mod(Mineshot.MOD_ID)
 public class Mineshot {
 
-    public static final String MODID = "mineshot";
-    public static final String NAME = "Mineshot";
-    public static final String VERSION = "@VERSION@";
+    public static final String MOD_ID = "mineshot";
     
-    @Instance(MODID)
+    @Instance(MOD_ID)
     public static Mineshot instance;
     
     private ModMetadata metadata;

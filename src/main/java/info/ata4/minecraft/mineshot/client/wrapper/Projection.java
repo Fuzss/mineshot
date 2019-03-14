@@ -9,8 +9,9 @@
  */
 package info.ata4.minecraft.mineshot.client.wrapper;
 
+import net.minecraft.client.renderer.GlStateManager;
+import net.minecraft.client.renderer.Matrix4f;
 import org.lwjgl.opengl.GL11;
-import org.lwjgl.util.glu.Project;
 
 /**
  *
@@ -34,7 +35,7 @@ public class Projection {
     
     public static void perspective(float fovy, float aspect, float zNear, float zFar) {
         transform();
-        Project.gluPerspective(fovy, aspect, zNear, zFar);
+        GlStateManager.multMatrixf(Matrix4f.perspective(fovy, aspect, zNear, zFar));
     }
 
     private Projection() {

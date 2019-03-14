@@ -24,7 +24,7 @@ public class FramebufferCapturer {
     
     private static final int BPP = 3; // bytes per pixel
     private static final int TYPE = GL_UNSIGNED_BYTE;
-    private static final Minecraft MC = Minecraft.getMinecraft();
+    private static final Minecraft MC = Minecraft.getInstance();
     
     private final ByteBuffer bb;
     private final Dimension dim;

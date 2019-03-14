@@ -29,7 +29,7 @@ import org.lwjgl.util.Dimension;
  */
 public class FramebufferTiledWriter extends FramebufferWriter implements PrivateAccessor {
     
-    private static final Minecraft MC = Minecraft.getMinecraft();
+    private static final Minecraft MC = Minecraft.getInstance();
 
     private final int widthTiled;
     private final int heightTiled;
